@@ -9,6 +9,6 @@ urlpatterns = [
     #TODO refer name=home(kwarg) in template
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
-    path('index/', views.vinyl_index, name='index')
+    path('vinyls/', views.vinyls_index, name='index')
     #* path method take in 3 args and the last is opt
 ]

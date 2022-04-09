@@ -11,8 +11,8 @@ def home(request):
 
 #Define the about view
 def about(request):
-    return HttpResponse('<h1>About</h1>')
+    return render(request,'about.html')
 
 #Define the about index
-def index(request):
-    return HttpResponse('<h1>Vinyls</h1>')
+def vinyl_index(request):
+    return render(request, 'vinyls/index.html',  {'vinyls': vinyls })

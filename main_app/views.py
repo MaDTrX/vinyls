@@ -12,10 +12,10 @@ class Vinyl:
         self.genre = genre
 
 vinyls = [
-    Vinyl('To pimp a butterfly','Kendrick Lamar','2015','hip-hop'),
-    Vinyl('My beatiful twisted dark fantasy','Ye','2010','hip-hop'),
-    Vinyl('American Dream','LCD sound system','2017','rock'),
-    Vinyl('Discovery','Daft Punk','2001','electronic')
+    Vinyl('To pimp a butterfly','Kendrick Lamar','2015','Hip-hop'),
+    Vinyl('My beatiful twisted dark fantasy','Ye','2010','Hip-hop'),
+    Vinyl('American Dream','LCD sound system','2017','Rock'),
+    Vinyl('Discovery','Daft Punk','2001','Electronic')
 ]
 
 #Define the home view

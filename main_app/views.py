@@ -1,22 +1,7 @@
 from django.shortcuts import render
-
-# Create your views here.
-#! dont forget to import HttpResponse
-from django.http  import HttpResponse
-
-class Vinyl:
-    def __init__(self, title, artist, year, genre):
-        self.title = title
-        self.artist = artist
-        self.year = year
-        self.genre = genre
-
-vinyls = [
-    Vinyl('To pimp a butterfly','Kendrick Lamar','2015','Hip-hop'),
-    Vinyl('My beatiful twisted dark fantasy','Ye','2010','Hip-hop'),
-    Vinyl('American Dream','LCD sound system','2017','Rock'),
-    Vinyl('Discovery','Daft Punk','2001','Electronic')
-]
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import Vinyl
+from .forms import ListeningForm
 
 #Define the home view
 def home(request):
@@ -28,4 +13,33 @@ def about(request):
 
 #Define the vinyle index
 def vinyls_index(request):
-    return render(request, 'vinyls/index.html',  {'vinyls': vinyls})
+  vinyls = Vinyl.objects.all()
+  return render(request, 'vinyls/index.html', { 'vinyls': vinyls })
+
+def vinyls_detail(request, vinyl_id):
+  vinyl = Vinyl.objects.get(id=vinyl_id)
+  listening_form = ListeningForm()
+  return render(request, 'vinyls/detail.html', { 'vinyl': vinyl, 'listening_form': listening_form })
+  
+class VinylCreate(CreateView):
+  model = Vinyl
+  fields = '__all__'
+
+class VinylUpdate(UpdateView):
+  model = Vinyl
+  fields = ['title', 'artist', 'year']
+
+class VinylDelete(DeleteView):
+  model = Vinyl
+  success_url = '/vinyls/'
+
+
+def add_feeding(request, vinyl_id):
+  # create a ModelForm instance using the data in the posted form
+  form = FeedingForm(request.POST)
+  # validate the data
+  if form.is_valid():
+    new_feeding = form.save(commit=False)
+    new_feeding.vinyl_id = vinyl_id
+    new_feeding.save()
+  return redirect('detail', vinyl_id=vinyl_id)

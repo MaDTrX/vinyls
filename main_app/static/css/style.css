@@ -1,6 +1,6 @@
-
+ /* clear cache when changes dont appear */
   body {
-    background-color: red;
+    background-color: white;
     display: flex;
     min-height: 100vh;
     flex-direction: column;

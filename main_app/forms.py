@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from .models import Listening
+from .models import Cleaning, Party
 
-class ListeningForm(ModelForm):
+class CleaningForm(ModelForm):
   class Meta:
-    model = Listening
-    fields = ['date', 'time']
+    model = Cleaning
+    fields = ['date', 'state']

@@ -23,5 +23,6 @@ urlpatterns = [
     #* include main_app urls.py
     #? what goes inside the quotations?
 
-    path('', include('main_app.urls'))
+    path('', include('main_app.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

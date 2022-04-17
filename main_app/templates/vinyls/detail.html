@@ -2,7 +2,8 @@
 {% block content %}
 
 <h1>Vinyl Details</h1>
-
+<div class="row">
+<div class="col s6">
 <div class="card">
   <div class="card-content">
     <span class="card-title">{{ vinyl.title }}</span>
@@ -15,6 +16,86 @@
     <a href="{% url 'vinyls_update' vinyl.id %}">Edit</a>
     <a href="{% url 'vinyls_delete' vinyl.id %}">Delete</a>
   </div> 
+</div>
+</div>
+<div>
+{% for photo in vinyl.photo_set.all %}
+  <img class="responsive-img card-panel" src="{{photo.url}}">
+{% empty %}
+  <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+{% endfor %}
+<form action="{% url 'add_photo' vinyl.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+    {% csrf_token %}
+    <input type="file" name="photo-file">
+    <br><br>
+    <input type="submit" class="btn" value="Upload Photo">
+</form>
+<div class="col s6">
+  <table class="striped">
+    <thead>
+      <tr><th>Date</th><th>State</th></tr>
+    </thead>
+    <tbody>
+      <form  action='{% url 'add_cleaning' vinyl.id %}' method="POST">
+        {% csrf_token %}
+        {{ cleaning_form.as_p }}
+        <input type="submit" class="btn" value=" Add Cleaning Record">
+      </form>
+      {% for cleaning in vinyl.cleaning_set.all %}
+        <tr>
+          <td>{{cleaning.date}}</td>
+          <td>{{cleaning.get_state_display}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ vinyl.title }}'s Parties</h3>
+    {% if vinyl.parties.count %}
+      {% for party in vinyl.parties.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ party.name }}">{{ party.date_time }}</span> {{ party.lovinylion }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'unassoc_party' vinyl.id party.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No parties 😔</h5>
+    {% endif %}
+  </div>
+  <!-- Available parties will come after this line -->
+  <div class="col s6">
+    <h3>Available parties</h3>
+    {% if parties.count %}
+      {% for party in parties.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ party.color }}">{{ party.color }}</span> {{ party.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_party' vinyl.id party.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{vinyl.name}} Already Has All parties Available</h5>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

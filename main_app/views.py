@@ -111,6 +111,7 @@ class PartyDetail(DetailView):
 class PartyCreate(CreateView):
   model = Party
   fields = '__all__'
+  success_url = '/parties/'
 
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
@@ -121,6 +122,7 @@ class PartyCreate(CreateView):
 class PartyUpdate(UpdateView):
   model = Party
   fields = '__all__'
+  success_url = '/parties/'
   
 class PartyDelete(DeleteView):
   model = Party
